@@ -37,7 +37,7 @@ unzip vosk-linux-aarch64-0.3.43.zip -d ~/vosk_api
 3. Download the lightweight English model:
 ```bash
 wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-unzip vosk-model-small-en-us-0.15.zip -d ~/vosk_models
+unzip vosk-model-small-en-us-0.15.zip -d src/voice_command/voice_modules/vosk_models
 
 ```
 ---
@@ -122,7 +122,7 @@ sudo apt install libportaudio2 portaudio19-dev
 Notice the URL specifically targets `x86_64` instead of `aarch64`.
 ```bash
 wget https://github.com/alphacep/vosk-api/releases/download/v0.3.43/vosk-linux-x86_64-0.3.43.zip
-unzip vosk-linux-x86_64-0.3.43.zip -d ~/vosk_api
+unzip vosk-linux-x86_64-0.3.43.zip -d src/voice_command/voice_modules/vosk_api
 
 ```
 
@@ -131,7 +131,7 @@ unzip vosk-linux-x86_64-0.3.43.zip -d ~/vosk_api
 Models are architecture-agnostic, so you can use the exact same model.
 ```bash
 wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-unzip vosk-model-small-en-us-0.15.zip -d ~/vosk_models
+unzip vosk-model-small-en-us-0.15.zip -d src/voice_command/voice_modules/vosk_models
 
 ```
 
