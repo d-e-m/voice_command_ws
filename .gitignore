@@ -4,6 +4,8 @@
 # Allow src and everything inside it
 !src/
 !src/**
+src/voice_command/voice_modules/
+src/voice_command/tts_engine/
 
 # Ignore specific subfolders inside src
 src/voice_command/voice_modules/**
