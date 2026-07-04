@@ -1,0 +1,89 @@
+cmake_minimum_required(VERSION 3.8)
+project(voice_command)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# -----------------------------------------------------------
+# VS Code IntelliSense Fix (Forced Compile Commands)
+# -----------------------------------------------------------
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# -----------------------------------------------------------
+# Find ROS 2 Packages
+# -----------------------------------------------------------
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(ament_index_cpp REQUIRED)
+find_package(moveit_ros_planning_interface REQUIRED)
+find_package(moveit_msgs REQUIRED)
+find_package(voice_cmd_messages REQUIRED)
+
+# -----------------------------------------------------------
+# Define Executables
+# -----------------------------------------------------------
+
+# 1. Speech to Text Node
+add_executable(speech_to_text src/speech_to_text.cpp)
+ament_target_dependencies(speech_to_text
+  rclcpp
+  std_msgs
+  ament_index_cpp
+)
+
+# TELL CMAKE WHERE THE HEADER FILE IS (vosk_api.h)
+target_include_directories(speech_to_text PRIVATE 
+  ${CMAKE_CURRENT_SOURCE_DIR}/voice_modules/vosk_api/vosk-linux-x86_64-0.3.43/
+)
+
+# TELL CMAKE WHERE THE COMPILED LIBRARY IS (libvosk.so)
+target_link_libraries(speech_to_text 
+  ${CMAKE_CURRENT_SOURCE_DIR}/voice_modules/vosk_api/vosk-linux-x86_64-0.3.43/libvosk.so
+  portaudio
+)
+
+# 2. Text to Speech Node
+add_executable(text_to_speech src/text_to_speech.cpp)
+ament_target_dependencies(text_to_speech
+  rclcpp
+  std_msgs
+)
+
+# 3. Voice Interpreter Node (MoveIt integration)
+add_executable(voice_interpreter src/voice_interpreter.cpp)
+ament_target_dependencies(voice_interpreter
+  rclcpp
+  rclcpp_action
+  std_msgs
+  moveit_ros_planning_interface
+  moveit_msgs
+  voice_cmd_messages
+)
+
+# -----------------------------------------------------------
+# Install Directives
+# -----------------------------------------------------------
+
+# Install the Vosk models directory so it can be found dynamically
+install(DIRECTORY voice_modules
+  DESTINATION share/${PROJECT_NAME}
+)
+
+# Install the Vosk Shared Library so it can be found at runtime
+install(FILES 
+  ${CMAKE_CURRENT_SOURCE_DIR}/voice_modules/vosk_api/vosk-linux-x86_64-0.3.43/libvosk.so
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install Executables
+install(TARGETS
+  speech_to_text
+  text_to_speech
+  voice_interpreter
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+ament_package()

@@ -1,0 +1,22 @@
+<components>
+  <library path="speech_to_text">
+    <class
+      type="voice_command::SpeechToText"
+      base_class_type="rclcpp_components::NodeFactory"
+      name="voice_command::SpeechToText"/>
+  </library>
+
+  <library path="text_to_speech">
+    <class
+      type="voice_command::TextToSpeech"
+      base_class_type="rclcpp_components::NodeFactory"
+      name="voice_command::TextToSpeech"/>
+  </library>
+
+  <library path="voice_interpreter">
+    <class
+      type="voice_command::VoiceInterpreter"
+      base_class_type="rclcpp_components::NodeFactory"
+      name="voice_command::VoiceInterpreter"/>
+  </library>
+</components>
