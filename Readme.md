@@ -63,7 +63,7 @@ pkg_check_modules(PORTAUDIO REQUIRED portaudio-2.0)
 # Set Vosk Library Path manually (pointing to where you unzipped it)
 set(VOSK_INCLUDE_DIR "/home/ubuntu/vosk_api")
 set(VOSK_LIBRARY "/home/ubuntu/vosk_api/libvosk.so")
-
+sudo apt  install ffmpeg 
 # 1. STT Node
 add_executable(stt_node src/stt_node.cpp)
 target_include_directories(stt_node PUBLIC ${VOSK_INCLUDE_DIR} ${PORTAUDIO_INCLUDE_DIRS})
@@ -149,3 +149,24 @@ set(VOSK_LIBRARY "/home/your_username/vosk_api/vosk-linux-x86_64-0.3.43/libvosk.
 ```
 
 Everything else in the ROS 2 pipeline—the STT node, the Interpreter, and the TTS node—will compile and run flawlessly on your generic Ubuntu machine.
+
+### **Starting the voice command**
+```ros2
+cd ~/voice_command_ws$
+
+. install/setup.bash
+
+ros2 run rclcpp_components component_container --ros-args -r __node:=ComponentManager
+*
+ros2 component load /ComponentManager voice_command voice_command::VoiceInterpreter
+
+ros2 component load /ComponentManager voice_command voice_command::TextToSpeechNode
+
+ros2 component load /ComponentManager voice_command voice_command::SpeechToTextNode
+```
+
+### **Demo**
+
+https://github.com/user-attachments/assets/e6b3d39c-507f-429b-ad7c-b65e81eed69e
+
+
