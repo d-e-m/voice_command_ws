@@ -6,8 +6,8 @@
 !src/**
 
 # Ignore specific subfolders inside src
-src/voice_command/voice_modules/
-src/voice_command/tts_engine/
+src/voice_command/voice_modules/**
+src/voice_command/tts_engine/**
 
 # Keep .gitignore itself
 !.gitignore
